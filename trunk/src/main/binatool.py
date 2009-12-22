@@ -1,5 +1,7 @@
 #from cvpyalgs import *
-from cvtools import * 
+#from cvtools import * 
+
+
 
 import pygtk
 pygtk.require('2.0')
@@ -31,6 +33,8 @@ if gtk.gtk_version < (2, 6, 0):
 if gtk.pygtk_version < (2, 6, 0):
 	sys.stderr.write("Mirage requires PyGTK 2.6.0 or newer.\n")
 	sys.exit(1)
+
+#os.environ['PATH'] += ";gtk/lib;gtk/bin;gtk/etc"
 	
 def valid_int(inputstring):
 	try:
@@ -81,13 +85,16 @@ class Base:
 		sauvola_label ="Sauvola"
 		met_label ="Minimum Error Threshold"
 		self.listAlg={}
-		self.listAlg[otsu_label]=otsu
-		self.listAlg[rotsuI_label]=rotsuI
-		self.listAlg[niblack_label]=niblack
-		self.listAlg[sauvola_label]=sauvola
-		self.listAlg[met_label]=met
-		self.listAlg[rotsuII_label]=rotsuII
-		self.listAlg[rotsuIII_label]=rotsuIII
+
+#		self.listAlg[otsu_label]=otsu
+#		self.listAlg[rotsuI_label]=rotsuI
+#		self.listAlg[niblack_label]=niblack
+#		self.listAlg[sauvola_label]=sauvola
+#		self.listAlg[met_label]=met
+#		self.listAlg[rotsuII_label]=rotsuII
+#		self.listAlg[rotsuIII_label]=rotsuIII
+
+
 #		self.listAlg[rotsuTest_label]=rotsuTest
 		# This is the actual pixbuf that is loaded in Mirage. This will
 		# usually be the same as self.curr_img_in_list except for scenarios
@@ -297,21 +304,22 @@ class Base:
 		if os.path.isfile(os.path.expanduser('~/.config/mirage/accel_map')):
 			gtk.accel_map_load(os.path.expanduser('~/.config/mirage/accel_map'))
 			
-		self.blank_image = gtk.gdk.pixbuf_new_from_file(self.find_path("../images/mirage_blank.png"))
+#		self.blank_image = gtk.gdk.pixbuf_new_from_file(self.find_path("../images/mirage_blank.png"))
+		self.blank_image = gtk.gdk.pixbuf_new_from_file("images/mirage_blank.png")
 
 		# Define the main menubar and toolbar:
 		factory = gtk.IconFactory()
-		iconname = '../images/stock_leave-fullscreen.png'
-		iconname2 = '../images/stock_fullscreen.png'
-		leave_fullscreen_icon_path = self.find_path(iconname)
-		pixbuf = gtk.gdk.pixbuf_new_from_file(leave_fullscreen_icon_path)
-		iconset = gtk.IconSet(pixbuf)
-		factory.add('leave-fullscreen', iconset)
+#		iconname = '../images/stock_leave-fullscreen.png'
+#		iconname2 = '../images/stock_fullscreen.png'
+#		leave_fullscreen_icon_path = self.find_path(iconname)
+##		pixbuf = gtk.gdk.pixbuf_new_from_file(leave_fullscreen_icon_path)
+#		iconset = gtk.IconSet(pixbuf)
+#		factory.add('leave-fullscreen', iconset)
 		factory.add_default()
-		fullscreen_icon_path = self.find_path(iconname2)
-		pixbuf = gtk.gdk.pixbuf_new_from_file(fullscreen_icon_path)
-		iconset = gtk.IconSet(pixbuf)
-		factory.add('fullscreen', iconset)
+#		fullscreen_icon_path = self.find_path(iconname2)
+#		pixbuf = gtk.gdk.pixbuf_new_from_file(fullscreen_icon_path)
+#		iconset = gtk.IconSet(pixbuf)
+#		factory.add('fullscreen', iconset)
 		factory.add_default()
 		try:
 			test = gtk.Button("", gtk.STOCK_LEAVE_FULLSCREEN)
@@ -498,7 +506,7 @@ class Base:
 		# Create interface
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.update_title()
-		icon_path = self.find_path('mirage.png')
+#		icon_path = self.find_path('mirage.png')
 		try:
 			gtk.window_set_default_icon_from_file(icon_path)
 		except:
@@ -627,7 +635,7 @@ class Base:
 		self.ss_exit.set_property('can-focus', False)
 		self.ss_exit.connect('clicked', self.leave_fullscreen)
 		self.ss_randomize = gtk.ToggleButton()
-		icon_path = self.find_path('stock_shuffle.png')
+#		icon_path = self.find_path('stock_shuffle.png')
 		try:
 			pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
 			iconset = gtk.IconSet(pixbuf)
@@ -996,7 +1004,7 @@ class Base:
 		return blank_pix
 
 	def find_path(self, filename):
-		full_filename = ""
+		full_filename =""
 		if os.path.exists(os.path.join(sys.prefix, 'share', 'pixmaps', filename)):
 			full_filename = os.path.join(sys.prefix, 'share', 'pixmaps', filename)
 		elif os.path.exists(os.path.join(sys.prefix, 'share', 'mirage', filename)):
@@ -1911,7 +1919,7 @@ class Base:
 			ratio = int(100 * self.currimg_zoomratio)
 			status_text = str(self.currimg_pixbuf_original.get_width()) + "x" + str(self.currimg_pixbuf_original.get_height()) + "   " + str(filesize) + "KB   " + str(ratio) + "%   "
 		except:
-			status_text=_("Cannot load image.")
+			status_text=_("")#status_text=_("Cannot load image.")
 		self.statusbar.push(self.statusbar.get_context_id(""), status_text)
 		status_text = ""
 		if self.running_custom_actions:
@@ -2866,7 +2874,7 @@ class Base:
 		self.about_dialog.set_translator_credits('cs - Petr Pisar <petr.pisar@atlas.cz>\nde - Bjoern Martensen <bjoern.martensen@gmail.com>\nes - Isidro Arribas <cdhotfire@gmail.com>\nfr - Mike Massonnet <mmassonnet@gmail.com>\nhu - Sandor Lisovszki <lisovszki@dunakanyar.net>\npl - Tomasz Dominikowski <dominikowski@gmail.com>\nru - mavka <mavka@justos.org>\nit - Daniele Maggio <dado84@freemail.it>')
 		gtk.about_dialog_set_url_hook(self.show_website, "http://mirageiv.berlios.de")
 		self.about_dialog.set_website_label("http://mirageiv.berlios.de")
-		icon_path = self.find_path('mirage.png')
+#		icon_path = self.find_path('mirage.png')
 		try:
 			icon_pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
 			self.about_dialog.set_logo(icon_pixbuf)
@@ -4058,13 +4066,14 @@ class Base:
 			self.preloadimg_prev_in_list = -1
 
 	def change_cursor(self, type):
-		for i in gtk.gdk.window_get_toplevels():
-			if i.get_window_type() != gtk.gdk.WINDOW_TEMP and i.get_window_type() != gtk.gdk.WINDOW_CHILD:
-				i.set_cursor(type)
-		self.layout.window.set_cursor(type)
-
+#		for i in gtk.gdk.window_get_toplevels():
+#			if i.get_window_type() != gtk.gdk.WINDOW_TEMP and i.get_window_type() != gtk.gdk.WINDOW_CHILD:
+#				i.set_cursor(type)
+#		self.layout.window.set_cursor(type)
+            print ""
+        
 	def expand_filelist_and_load_image(self, inputlist):
-		# Takes the current list (i.e. ["pic.jpg", "pic2.gif", "../images"]) and
+		# Takes the current list (i.e. ["pic.jpg", "pic2.gif", "images"]) and
 		# expands it into a list of all pictures found
 		self.thumblist.clear()
 		first_image_loaded_successfully = False
@@ -4256,8 +4265,8 @@ class Base:
 			if not self.closing_app:
 				while gtk.events_pending():
 					gtk.main_iteration(True)
-		if not first_image_loaded_successfully:
-			self.image_load_failed(False, init_image)
+#		if not first_image_loaded_successfully:
+#			self.image_load_failed(False, init_image)
 		self.searching_for_images = False
 		self.update_statusbar()
 		self.set_go_navigation_sensitivities(False)
@@ -4492,8 +4501,8 @@ if __name__ == "__main__":
 	base = Base()
 	
 	gtk.gdk.threads_enter()
-	filenames = ['C:\\Documents and Settings\\onina\\My Documents\\projects\\images\\testCases\\unittest.pgm']
-	base.expand_filelist_and_load_image(filenames)
+#	filenames = ['C:\\Documents and Settings\\onina\\My Documents\\projects\\images\\testCases\\unittest.pgm']
+#	base.expand_filelist_and_load_image(filenames)
 	base.main()
 	gtk.gdk.threads_leave()
 
