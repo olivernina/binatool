@@ -4498,8 +4498,9 @@ class Base:
 		gtk.main()
 
 if __name__ == "__main__":
+	from test.toolbar import *
 	base = Base()
-	
+	ThreshToolbar()
 	gtk.gdk.threads_enter()
 #	filenames = ['C:\\Documents and Settings\\onina\\My Documents\\projects\\images\\testCases\\unittest.pgm']
 #	base.expand_filelist_and_load_image(filenames)
