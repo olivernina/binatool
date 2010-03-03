@@ -22,6 +22,11 @@ from distutils.core import setup
 import py2exe
 
 
+#import modulefinder
+#modulefinder.AddPackagePath("toolbar", "test")
+
+
+
 CLASSIFIERS = """\
 Development Status :: 5 - Production/Stable
 Intended Audience :: Developers
@@ -47,9 +52,12 @@ Topic :: Multimedia :: Graphics
 #import random, urllib, gobject, gettext, locale
 #import stat, time, subprocess, shutil, filecmp
 #import tempfile, socket, md5, threading
+#from test.toolbar import *
 
 includes = ["pygtk","os","sys","getopt","ConfigParser", "string", "gc","random", "urllib", "gobject", "gettext", "locale",
-            "stat", "time", "subprocess", "shutil", "filecmp","tempfile", "socket", "md5", "threading","cairo","gtk","pango", "pangocairo", "atk", "gobject"] #"gtk._gtk","pango", "pangocairo", "atk", "gobject"
+            "stat", "time", "subprocess", "shutil", "filecmp","tempfile", "socket", "md5", "threading","cairo","gtk",
+            "pango", "pangocairo", "atk", "gobject",
+            "numpy","cvtypes","cvtools","toolbar"] #"gtk._gtk","pango", "pangocairo", "atk", "gobject"
 
 excludes = ["pywin", "pywin.debugger", "pywin.debugger.dbgcon",
             "pywin.dialogs", "pywin.dialogs.list",
