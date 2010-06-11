@@ -38,6 +38,7 @@ Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
     File "dist\binatool.exe"
+    File "dist\w9xpopen.exe"
     File "dist\library.zip"
     File "dist\msvcr71.dll"
     File "dist\README"
@@ -88,6 +89,7 @@ Section /o -un.Main UNSEC0000
     Delete /REBOOTOK $INSTDIR\msvcr71.dll
     Delete /REBOOTOK $INSTDIR\library.zip
     Delete /REBOOTOK $INSTDIR\binatool.exe
+    Delete /REBOOTOK $INSTDIR\w9xpopen.exe
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 

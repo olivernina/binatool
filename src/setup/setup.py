@@ -52,12 +52,14 @@ Topic :: Multimedia :: Graphics
 #import random, urllib, gobject, gettext, locale
 #import stat, time, subprocess, shutil, filecmp
 #import tempfile, socket, md5, threading
-#from test.toolbar import *
+
+
+
 
 includes = ["pygtk","os","sys","getopt","ConfigParser", "string", "gc","random", "urllib", "gobject", "gettext", "locale",
             "stat", "time", "subprocess", "shutil", "filecmp","tempfile", "socket", "md5", "threading","cairo","gtk",
             "pango", "pangocairo", "atk", "gobject",
-            "numpy","cvtypes","cvtools","toolbar"] #"gtk._gtk","pango", "pangocairo", "atk", "gobject"
+            "numpy","cvtypes","cvtools","ctypes","toolbar"] #"gtk._gtk","pango", "pangocairo", "atk", "gobject"
 
 excludes = ["pywin", "pywin.debugger", "pywin.debugger.dbgcon",
             "pywin.dialogs", "pywin.dialogs.list",
@@ -83,12 +85,13 @@ setup(name = 'binatool',
              }
             ], 
     options = {"py2exe": {"compressed": 1,
-                          "optimize": 2,
+                          "optimize": 0,
                           "ascii": 1,
                           "bundle_files": 1,
                           "packages": 'encodings',
                           "includes": includes,
-                          "excludes": excludes}},
+                          "excludes": excludes
+                          }},
 )
 
 
