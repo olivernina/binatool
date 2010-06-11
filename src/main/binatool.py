@@ -1,6 +1,12 @@
 #from cvpyalgs import *
-#from cvtools import * 
+from cvtools import *
+from cvtypes import * 
+from toolbar import *
 
+import sys
+
+sys.stdout = open("stdout.log", "w")
+sys.stderr = open("stderr.log", "w")
 
 
 import pygtk
@@ -10,6 +16,7 @@ import os, sys, getopt, ConfigParser, string, gc
 import random, urllib, gobject, gettext, locale
 import stat, time, subprocess, shutil, filecmp
 import tempfile, socket, md5, threading
+
 try:
 	import imgfuncs
 	HAS_IMGFUNCS = True
@@ -75,26 +82,6 @@ class Base:
 		self.currimg_zoomratio = 1
 		self.currimg_is_animation = False
 		
-#		These are the options for the dropdown menu # add algorithm 
-		otsu_label ="Otsu" 
-		rotsuI_label ="Rotsu version 1" 
-		rotsuII_label ="Rotsu version 2" 
-		rotsuIII_label ="Rotsu version 3"
-		rotsuTest_label ="Rotsu test version"
-		niblack_label ="Niblack" 
-		sauvola_label ="Sauvola"
-		met_label ="Minimum Error Threshold"
-		self.listAlg={}
-
-#		self.listAlg[otsu_label]=otsu
-#		self.listAlg[rotsuI_label]=rotsuI
-#		self.listAlg[niblack_label]=niblack
-#		self.listAlg[sauvola_label]=sauvola
-#		self.listAlg[met_label]=met
-#		self.listAlg[rotsuII_label]=rotsuII
-#		self.listAlg[rotsuIII_label]=rotsuIII
-
-
 #		self.listAlg[rotsuTest_label]=rotsuTest
 		# This is the actual pixbuf that is loaded in Mirage. This will
 		# usually be the same as self.curr_img_in_list except for scenarios
@@ -176,6 +163,10 @@ class Base:
 		self.thumbpane_updating = False
 		self.recentfiles = ["", "", "", "", ""]
 		self.screenshot_delay = 2
+		
+		self.curr_iplimage = None
+#		self.bina_toolbar = None
+		self.views= list()
 
 		# Read any passed options/arguments:
 		try:
@@ -340,7 +331,7 @@ class Base:
 			('Open Remote Image', gtk.STOCK_NETWORK, _('_Open Remote image...'), None, _('Open Remote Image'), self.open_file_remote),
 			('Open Folder', gtk.STOCK_OPEN, _('Open _Folder...'), '<Ctrl>F', _('Open Folder'), self.open_folder),
 			('Save', gtk.STOCK_SAVE, _('_Save Image'), '<Ctrl>S', _('Save Image'), self.save_image),
-			('Save As', gtk.STOCK_SAVE, _('Save Image _As...'), '<Shift><Ctrl>S', _('Save Image As'), self.save_image_as),
+			('Save As', gtk.STOCK_SAVE, _('Save Binary Image...'), '<Shift><Ctrl>S', _('Save Image As'), self.save_image_as),
 			('Crop', None, _('_Crop...'), None, _('Crop Image'), self.crop_image),
 			('Resize', None, _('Re_size...'), None, _('Resize Image'), self.resize_image),
 			('Saturation', None, _('Saturation...'), None, _('Modify saturation'), self.saturation),
@@ -498,7 +489,7 @@ class Base:
 			    <separator name="FM2"/>
 			    <toolitem action="Previous2"/>
 			    <toolitem action="Next2"/>
-			    
+			    <toolitem action="Save As"/>
 			  </toolbar>
 			</ui>
 			"""
@@ -755,7 +746,11 @@ class Base:
 	def changed_cb(self,entry): #This is for the selection of a different algorithm
 		self.curr_algorithm = entry.get_text()
 		print self.curr_algorithm
-		
+	
+	def get_current_file_path(self):
+		filename = self.image_list[self.curr_img_in_list]
+		return filename
+	
 	def runbtn_clicked(self,action):#This is when the user clicks the run button
 		print("clicked")
 		filename = self.image_list[self.curr_img_in_list]
@@ -892,8 +887,8 @@ class Base:
 					pix = self.pixbuf_add_border(pix)
 					try:
 						self.thumblist[imgnum] = [pix]
-						print pix
-						print imgnum
+#						print pix
+#						print imgnum
 					except:
 						pass
 					self.thumbscroll.get_vscrollbar().handler_unblock(self.thumb_scroll_handler)
@@ -1605,6 +1600,59 @@ class Base:
 		if self.UIManager.get_widget('/MainMenu/FileMenu/Save').get_property('sensitive'):
 			self.save_image_now(self.currimg_name, gtk.gdk.pixbuf_get_file_info(self.currimg_name)[0]['name'])
 
+	def display_error_message(self,message):
+		error_dialog = gtk.MessageDialog(self.window, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE, _(message))
+		error_dialog.set_title(_("Error"))
+		error_dialog.run()
+		error_dialog.destroy()
+
+	def save_current_ipl_image(self,filename,filetype):
+#		try:
+		
+			if self.curr_iplimage is None:
+				self.display_error_message("There is no thresholded image to save. Unable to save ")
+			else:
+
+				self.change_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
+				while gtk.events_pending():
+					gtk.main_iteration()
+				if filetype == None:
+					self.display_error_message("Extension no provided")
+				if True : #self.filetype_is_writable(filetype):
+					print filename,filetype
+					print self.curr_iplimage
+					cv.SaveImage(filename,self.curr_iplimage)
+
+#					self.currimg_pixbuf_original.save(dest_name, filetype)
+#					self.currimg_name = dest_name
+#					self.image_list[self.curr_img_in_list] = dest_name
+#					self.update_title()
+#					self.update_statusbar()
+#					# Update thumbnail:
+#					gobject.idle_add(self.thumbpane_set_image, dest_name, self.curr_img_in_list, True)
+#					self.image_modified = False
+				else:
+					error_dialog = gtk.MessageDialog(self.window, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO, _('The') + ' ' + filetype + ' ' + 'format is not supported for saving. Do you wish to save the file in a different format?')
+					error_dialog.set_title(_("Save"))
+					response = error_dialog.run()
+					if response == gtk.RESPONSE_YES:
+						error_dialog.destroy()
+						while gtk.events_pending():
+							gtk.main_iteration()
+						self.save_image_as(None)
+					else:
+						error_dialog.destroy()
+#		except:
+#			error_dialog = gtk.MessageDialog(self.window, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_CLOSE, _('Unable to save '))
+#			error_dialog.set_title(_("Save"))
+#			error_dialog.run()
+#			error_dialog.destroy()
+#		self.change_cursor(None)
+		
+	def set_curr_iplimage(self,image):
+		self.curr_iplimage = image
+		self.update_views()
+		
 	def save_image_as(self, action):
 		dialog = gtk.FileChooserDialog(title=_("Save As"),action=gtk.FILE_CHOOSER_ACTION_SAVE,buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_SAVE,gtk.RESPONSE_OK))
 		dialog.set_default_response(gtk.RESPONSE_OK)
@@ -1625,8 +1673,10 @@ class Base:
 			for i in gtk.gdk.pixbuf_get_formats():
 				if fileext in i['extensions']:
 					filetype = i['name']
-			self.save_image_now(filename, filetype)
-			self.register_file_with_recent_docs(filename)
+#			self.save_image_now(filename, filetype)
+			self.save_current_ipl_image(filename, filetype)
+#			self.register_file_with_recent_docs(filename)
+            
 		else:
 			dialog.destroy()
 			
@@ -1813,6 +1863,7 @@ class Base:
 		file_chooser.set_preview_widget_active(have_preview)
 		del pixbuf
 		gc.collect()
+	
 
 	def hide_cursor(self):
 		if self.fullscreen_mode and not self.user_prompt_visible and not self.slideshow_controls_visible:
@@ -2865,7 +2916,7 @@ class Base:
 			self.about_dialog.set_modal(True)
 		except:
 			pass
-		self.about_dialog.set_name('Mirage')
+		self.about_dialog.set_name('Binatool')
 		self.about_dialog.set_version(__version__)
 		self.about_dialog.set_comments(_('A fast GTK+ Image Viewer.'))
 		self.about_dialog.set_license(__license__)
@@ -4417,9 +4468,9 @@ class Base:
 
 	def update_title(self):
 		if len(self.image_list) == 0:
-			title = "Mirage"
+			title = "Binatool"
 		else:
-			title = "Mirage - [" + str(self.curr_img_in_list+1) + ' ' + _('of') + ' ' + str(len(self.image_list)) + "] " + os.path.basename(self.currimg_name)
+			title = "Binatool - [" + str(self.curr_img_in_list+1) + ' ' + _('of') + ' ' + str(len(self.image_list)) + "] " + os.path.basename(self.currimg_name)
 			if self.slideshow_mode:
 				title = title + ' - ' + _('Slideshow Mode')
 		self.window.set_title(title)
@@ -4493,14 +4544,31 @@ class Base:
 	def close_all_windows(self,action):
 		cv.DestroyAllWindows();
 #		print "here I am once again"
+	
+	def add_view(self,view):
+		self.views.append(view)
 		
+	def update_views(self):
+		for view in self.views:
+			view.curr_iplimage = self.curr_iplimage
+            #			view.update_model(self)
+
 	def main(self):
 		gtk.main()
 
 if __name__ == "__main__":
-	from test.toolbar import *
+	
+	#    import toolbar
 	base = Base()
-	ThreshToolbar()
+	#	print base.curr_img_in_list
+	#	base.bina_toolbar = bina_toolbar
+
+	bina_toolbar = ThreshToolbar(base) #uncomment this for using the thresholding toolbar
+
+#	base.add_view(bina_toolbar)
+#	base.add_view(base)
+#	bina_toolbar.set_model(base)
+	
 	gtk.gdk.threads_enter()
 #	filenames = ['C:\\Documents and Settings\\onina\\My Documents\\projects\\images\\testCases\\unittest.pgm']
 #	base.expand_filelist_and_load_image(filenames)
@@ -4529,3 +4597,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
+
+#C:\Python26\Scripts;C:\Python26\;
