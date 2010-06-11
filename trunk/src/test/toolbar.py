@@ -1,12 +1,9 @@
-#!/usr/bin/env python
-
-# example rangewidgets.py
-
+from cvtypes import *
+import cvtools
 import pygtk
 pygtk.require('2.0')
 import gtk
 
-# Convenience functions
 
 def make_menu_item(name, callback, data=None):
     item = gtk.MenuItem(name)
@@ -14,31 +11,55 @@ def make_menu_item(name, callback, data=None):
     item.show()
     return item
 
-def scale_set_default_values(scale):
-    scale.set_update_policy(gtk.UPDATE_CONTINUOUS)
-    scale.set_digits(1)
-    scale.set_value_pos(gtk.POS_TOP)
-    scale.set_draw_value(True)
-
 class ThreshToolbar:
+    
     def cb_pos_menu_select(self, item, pos):
-        # Set the value position on both scale widgets
-#        self.hscale.set_value_pos(pos)
-#        self.vscale.set_value_pos(pos)
-        if pos is 2:
-            print pos
-        
-    def otsu_menu_select(self,item,pos):
-        print item
-        print pos
+        self.alg_selected = pos   
+    
+    def set_model(self,newmodel):
+        self.model = newmodel
     def run_action(self,item):
-        print "here"
-    def __init__(self):
-        # Standard window-creating stuff
+        filename  = self.model.get_current_file_path()
+#        print filename
+        
+        if self.alg_selected==0:
+           print "run Otsu algorithm"
+           image = cv.LoadImage(filename,0)
+           otsu = cvtools.otsu_thresholding(image)
+           self.model.curr_iplimage = otsu
+#           self.model.set_curr_iplimage(otsu)
+           cvtools.display("Otsu", otsu)
+           
+        if self.alg_selected==1:
+           print "run Nibalck algorithm"
+           image = cv.LoadImage(filename,0)
+           niblack = cvtools.Niblack(image, 7)
+           self.model.curr_iplimage = niblack
+           cvtools.display("Niblack", niblack)
+           
+        if self.alg_selected==2:
+           print "run Sauvola algorithm"
+           image = cv.LoadImage(filename,0)
+           sauvola = cvtools.Sauvola(image, 7)
+           self.model.curr_iplimage = sauvola
+           cvtools.display("Sauvola", sauvola)
+           
+        if self.alg_selected==3:
+           print "run Kitler algorithm"
+           image = cv.LoadImage(filename,0)
+           kittler = cvtools.Kittler(image)
+           self.model.curr_iplimage = kittler
+           cvtools.display("Kittler", kittler)
+        
+#        print self.alg_selected
+    def __init__(self,model=None):
+        
+        
+        self.model = model
         self.window = gtk.Window (gtk.WINDOW_TOPLEVEL)
         self.window.connect("destroy", lambda w: gtk.main_quit())
         self.window.set_title("Thresholding Algorithms")
-
+        self.alg_selected=0
         box1 = gtk.VBox(False, 0)
         self.window.add(box1)
         box1.show()
@@ -51,7 +72,6 @@ class ThreshToolbar:
         box2 = gtk.HBox(False, 10)
         box2.set_border_width(10)
 
-        # An option menu to change the position of the value
         label = gtk.Label("Algorithm: ")
         box2.pack_start(label, False, False, 0)
         label.show()
@@ -59,7 +79,7 @@ class ThreshToolbar:
         opt = gtk.OptionMenu()
         menu = gtk.Menu()
 
-        item = make_menu_item ("Otsu", self.cb_pos_menu_select, 0)
+        item = make_menu_item ("Otsu", self.cb_pos_menu_select, 0)  # An option menu to change the position of the value
         menu.append(item)
   
         item = make_menu_item ("Niblack", self.cb_pos_menu_select,1)
@@ -68,7 +88,7 @@ class ThreshToolbar:
         item = make_menu_item ("Sauvola", self.cb_pos_menu_select, 2)
         menu.append(item)
   
-        item = make_menu_item ("Kitler", self.cb_pos_menu_select, 3)
+        item = make_menu_item ("Kittler", self.cb_pos_menu_select, 3)
         menu.append(item)
   
         opt.set_menu(menu)
@@ -112,5 +132,5 @@ def main():
     return 0            
 
 if __name__ == "__main__":
-    ThreshToolbar()
+    ThreshToolbar(None)
     main()
