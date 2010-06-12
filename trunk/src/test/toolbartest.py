@@ -4,7 +4,7 @@ def main():
     return 0            
 
 if __name__ == "__main__":
-    from toolbar import * 
+    from main.toolbar import * 
     from cvtools import * 
     ThreshToolbar()
     main()
