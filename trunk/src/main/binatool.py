@@ -1,12 +1,16 @@
 #from cvpyalgs import *
+import sys
+
 from cvtools import *
 from cvtypes import * 
 from toolbar import *
 
-import sys
+
 
 sys.stdout = open("stdout.log", "w")
 sys.stderr = open("stderr.log", "w")
+
+
 
 
 import pygtk
@@ -117,7 +121,7 @@ class Base:
 		self.recursive = False
 		self.verbose = False
 		self.image_loaded = False
-		self.open_all_images = True				# open all images in the directory(ies)
+		self.open_all_images = False				# open all images in the directory(ies)
 		self.use_last_dir = True
 		self.last_dir = os.path.expanduser("~")
 		self.fixed_dir = os.path.expanduser("~")
