@@ -40,8 +40,9 @@ Section -Main SEC0000
     File "dist\binatool.exe"
     File "dist\w9xpopen.exe"
     File "dist\library.zip"
-    File "dist\msvcr71.dll"
+    ;File "dist\msvcr71.dll"
     File "dist\README"
+    File /r "dist\*.dll"
     CreateDirectory $INSTDIR\images
     SetOutPath $INSTDIR\images
     File /r "dist\images\*"

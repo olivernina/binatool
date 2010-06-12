@@ -68,6 +68,13 @@ excludes = ["pywin", "pywin.debugger", "pywin.debugger.dbgcon",
              ]
 packages = []
  
+import glob
+import sys 
+
+sys.path.append("../main/")
+sys.path.append("./DLLs/")
+print sys.path
+
 setup(name = 'binatool',
     version = '0.1.0',
     description = DOCLINES[0],
@@ -78,6 +85,8 @@ setup(name = 'binatool',
     classifiers = filter(None, CLASSIFIERS.split('\n')),
     long_description = "\n".join(DOCLINES[2:]),
 #    data_files=[('../main/images', ['README'])],
+    data_files=[('.', glob.glob('thresholding.dll'))],
+
     windows=[
              {
               'script':'../main/binatool.py',
