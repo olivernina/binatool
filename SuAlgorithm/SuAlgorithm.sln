@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SuAlgorithm", "SuAlgorithm\SuAlgorithm.vcproj", "{7CC3C1EE-6127-43D8-8E14-0240E305FC9F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CVTLib", "..\cvt_static_lib\CVTLib\CVTLib.vcproj", "{95350CAB-D847-46CE-949E-960C9146E408}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CC3C1EE-6127-43D8-8E14-0240E305FC9F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7CC3C1EE-6127-43D8-8E14-0240E305FC9F}.Debug|Win32.Build.0 = Debug|Win32
+		{7CC3C1EE-6127-43D8-8E14-0240E305FC9F}.Release|Win32.ActiveCfg = Release|Win32
+		{7CC3C1EE-6127-43D8-8E14-0240E305FC9F}.Release|Win32.Build.0 = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|Win32.ActiveCfg = Debug|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|Win32.Build.0 = Debug|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|Win32.ActiveCfg = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
