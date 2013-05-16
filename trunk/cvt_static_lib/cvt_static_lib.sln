@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CVTLib", "CVTLib\CVTLib.vcxproj", "{95350CAB-D847-46CE-949E-960C9146E408}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testStaticLibrary", "testStaticLibrary\testStaticLibrary.vcxproj", "{18A53469-FC53-4F77-A72D-FDA862152B40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|Win32.ActiveCfg = Debug|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|Win32.Build.0 = Debug|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|x64.ActiveCfg = Debug|x64
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|x64.Build.0 = Debug|x64
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|Win32.ActiveCfg = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|Win32.Build.0 = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|x64.ActiveCfg = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|x64.Build.0 = Release|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Debug|Win32.Build.0 = Debug|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Debug|x64.ActiveCfg = Debug|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Release|Win32.ActiveCfg = Release|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Release|Win32.Build.0 = Release|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Release|x64.ActiveCfg = Release|Win32
+		{18A53469-FC53-4F77-A72D-FDA862152B40}.Release|x64.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

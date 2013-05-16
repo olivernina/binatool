@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuAlgorithm", "LuAlgorithm\LuAlgorithm.vcproj", "{20D4BDAB-0BA9-4965-BCDC-9E62BAC3740F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CVTLib", "..\cvt_static_lib\CVTLib\CVTLib.vcproj", "{95350CAB-D847-46CE-949E-960C9146E408}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20D4BDAB-0BA9-4965-BCDC-9E62BAC3740F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{20D4BDAB-0BA9-4965-BCDC-9E62BAC3740F}.Debug|Win32.Build.0 = Debug|Win32
+		{20D4BDAB-0BA9-4965-BCDC-9E62BAC3740F}.Release|Win32.ActiveCfg = Release|Win32
+		{20D4BDAB-0BA9-4965-BCDC-9E62BAC3740F}.Release|Win32.Build.0 = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|Win32.ActiveCfg = Debug|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Debug|Win32.Build.0 = Debug|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|Win32.ActiveCfg = Release|Win32
+		{95350CAB-D847-46CE-949E-960C9146E408}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
