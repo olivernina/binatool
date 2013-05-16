@@ -489,12 +489,12 @@ void run_as_shell_command(int argc, _TCHAR* argv[]){
 int _tmain(int argc, _TCHAR* argv[])
 {
 
-	run_as_shell_command(argc, argv);
+	//run_as_shell_command(argc, argv);
 
-	//image = cvLoadImage("C:\\Users\\Oliver\\Projects\\FHTW2013\\binatool\\dibco09-images\\H04.bmp",0);
-	//IplImage * rimage = su_algorithm(image);
-	//display_image("su",rimage);
-	//cvWaitKey();
+	image = cvLoadImage("C:\\Users\\Oliver\\Projects\\FHTW2013\\binatool\\dibco09-images\\H04.bmp",0);
+	IplImage * rimage = su_algorithm(image);
+	display_image("su",rimage);
+	cvWaitKey();
 
 
     return 0;
